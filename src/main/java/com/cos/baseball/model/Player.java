@@ -30,7 +30,7 @@ public class Player {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "teamId")
 	private Team team;
 	
@@ -41,5 +41,10 @@ public class Player {
 	@OneToOne(mappedBy = "player", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("player")
 	private OutPlayer outPlayer;
+	
+	
+	
+	
+	
 	
 }

@@ -22,15 +22,22 @@
     <li class="nav-item">
       <a class="nav-link active" href="/player">선수</a>
     </li>
-    
+      <li class="nav-item">
+      <a class="nav-link" href="/teamPlayer">팀별 선수</a>
+    </li>
     <li class="nav-item">
       <a class="nav-link active" href="/player/saveForm">선수 등록</a>
     </li>
   </ul>
+  <div>
   
-
-
-
+  <c:forEach var="team" items="${team}">
+   <button type="button" class="${team.id} btn btn-dark btn-lotte" onclick="">${team.name}</button>
+   
+  </c:forEach>
+  
+  
+  </div>
 </div>
 
 
@@ -64,6 +71,7 @@
         <td>${player.outPlayer.reason}</td>
         <td>${player.outPlayer.outDay }</td>
         <td><button class="${player.id} btn btn-danger btn-delete">삭제</button></td>
+        
       </tr>
    
     </c:forEach>
@@ -79,6 +87,62 @@ let index = {
 				this.deleteById();
 			});
 			
+			$(".btn-lotte").on("click", ()=>{
+				this.lotte();
+			});
+			
+			
+		},
+		
+		lotte: function() {
+			
+			let id = event.target.className.split(" ")[0];
+			
+			$.ajax({
+				type : "get",
+				url : "/teamPlayer/"+ id,
+				contentType: "application/x-www-form-urlencoded; charset=utf-8",
+				dataType : "json"
+			}).done((resp)=>{
+				console.log(resp);
+				$("#tbody").empty();
+				for(var player of resp){
+					
+					var data = "";
+					
+					if(player.outPlayer == null){
+				var data = "<tr>\r\n" +
+					"    \r\n" + 
+					"        <td>"+player.id+"</td>\r\n" + 
+					"        <td>"+player.name+"</td>\r\n" + 
+					"        <td>"+player.team.name+"</td>\r\n" + 
+					"        <td>"+player.position+"</td>\r\n" + 
+					"        <td></td>\r\n" + 
+					"        <td></td>\r\n" + 
+					"        <td><button class=\""+player.id+" btn btn-danger btn-delete\">삭제</button></td>\r\n" + 
+					"        \r\n" + 
+					"      </tr>";
+					}else{
+					
+						var data =	"    \r\n" + 
+						"        <td>"+player.id+"</td>\r\n" + 
+						"        <td>"+player.name+"</td>\r\n" + 
+						"        <td>"+player.team.name+"</td>\r\n" + 
+						"        <td>"+player.position+"</td>\r\n" + 
+						"        <td>"+player.outPlayer.reason+"</td>\r\n" +
+						"        <td>"+player.outPlayer.outday+"</td>\r\n" +
+						"        <td><button class=\""+player.id+" btn btn-danger btn-delete\">삭제</button></td>\r\n" + 
+						"        \r\n" + 
+						"      </tr>";
+						}
+					$("#tbody").append(data);
+					}
+				
+				
+			}).fail((error)=>{
+				alert(1, error.response);
+				console.log(error.response);
+			});
 		},
 		
 		deleteById: function() {

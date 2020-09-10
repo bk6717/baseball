@@ -1,8 +1,14 @@
 package com.cos.baseball.model;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +30,8 @@ public class Team {
 	
 	private String name;
 	
+	@OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("team")
+	private List<Player> players;
 	
 }

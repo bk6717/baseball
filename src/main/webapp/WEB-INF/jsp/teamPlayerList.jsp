@@ -17,16 +17,16 @@
       <a class="nav-link " href="/stardium">경기장</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link active" href="/team">팀</a>
+      <a class="nav-link" href="/team">팀</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/player">선수</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/teamPlayer">팀별 선수</a>
+      <a class="nav-link active" href="/teamPlayer">팀별 선수</a>
     </li>
-     <li class="nav-item">
-      <a class="nav-link active" href="/team/saveForm">팀 등록</a>
+    <li class="nav-item">
+      <a class="nav-link active" href="/player/saveForm">방출하기</a>
     </li>
   </ul>
 
@@ -39,53 +39,38 @@
   
       <tr>
       	
-        <th>번호</th>
-        <th>팀이름</th>
+        <th>ID</th>
+        <th>이름</th>
+        <th>소속</th>
+        <th>포지션</th>
+        <th>퇴출이유</th>
+        <th>퇴출일</th>
          
       </tr>
     </thead>
      <tbody id ="tbody">
-     <c:forEach var="team" items = "${team}">
+     <c:forEach var="player" items = "${player}">
    
+        <form action="/player/outPlayer" method="post">
       <tr>
+      
     
-        <td>${team.id}</td>
-        <td>${team.name}</td>
-        <td><button class="${team.id} btn btn-danger btn-delete">삭제</button></td>
+        <td>${player.id}</td>
+        <td>${player.name}</td>
+        <td>${player.team.name}</td>
+        <td>${player.position}</td>
+        <td><input type ="text" value="${player.outPlayer.reason }"></td>
+        <td><input type ="date" value="${player.outPlayer.outDay }"></td>
+        <td><button class="${player.id} btn btn-danger btn-delete"
+        			type="submit">퇴출</button></td>
       </tr>
+        </form>
    
     </c:forEach>
      </tbody>
   </table>
 </div>
-</body>
 <script>
-let index = {
-		init : function() {
-			
-			$(".btn-delete").on("click", ()=>{
-				this.deleteById();
-			});
-			
-		},
-		
-		deleteById: function() {
-			let id = event.target.className.split(" ")[0];
-			console.log(1, id);
-			
-			$.ajax({
-				type:"delete",
-				url: "/team/delete/"+id,
-				dataType : "text"
-			}).done((resp)=>{
-				alert("삭제성공");
-				location.href = "/team";
-			}).fail((error)=>{
-				alert("삭제실패");
-				console.log(2, error.response);
-			});
-		}
-}
-index.init();
+
 </script>
 </html>

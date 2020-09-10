@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cos.baseball.model.OutPlayer;
 import com.cos.baseball.model.Player;
 import com.cos.baseball.model.Team;
+import com.cos.baseball.repository.OutPlayerRepository;
 import com.cos.baseball.repository.PlayerRepository;
 import com.cos.baseball.repository.TeamRepository;
 
@@ -22,10 +24,12 @@ public class PlayerController {
 	private PlayerRepository playerRepository;
 	@Autowired
 	private TeamRepository teamRepository;
+	@Autowired
+	private OutPlayerRepository outPlayerRepository;
 	//선수 찾기
 	@GetMapping("/player")
 	public String findAll(Model model) {
-	
+		model.addAttribute("team", teamRepository.findAll());
 		model.addAttribute("player", playerRepository.findAll());
 		return "playerList";
 		
@@ -56,4 +60,17 @@ public class PlayerController {
 		playerRepository.deleteById(id);
 		return "성공";	
 	}
+	
+	
+	@PostMapping("/player/outPlayer")
+	public String outPlayerSave(OutPlayer outPlayer, int id) {
+		System.out.println("탐??");
+		System.out.println(outPlayer+"000000000000000000000000000000000000");
+		outPlayerRepository.save(outPlayer);
+		playerRepository.findAll();
+		
+		return "teamPlayerList";	
+	}
+	
+	
 }

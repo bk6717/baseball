@@ -22,6 +22,10 @@
     <li class="nav-item">
       <a class="nav-link" href="/player">선수</a>
     </li>
+     </li>
+      <li class="nav-item">
+      <a class="nav-link" href="/teamPlayer">팀별 선수</a>
+    </li>
     <li class="nav-item">
       <a class="nav-link active" href="/stardium/saveForm">경기장 등록</a>
     </li>
